@@ -28,7 +28,7 @@ El proyecto está organizado en varias carpetas:
 2. **Crear un entorno virtual** (opcional pero recomendado):
    ```bash
    python -m venv venv
-   source venv/bin/activate  # En Linux o Mac
+   source venv/bin/activate  # En Linu x o Mac
    venv\Scripts\activate  # En Windows
    ```
 
