@@ -12,8 +12,11 @@ int main()
     Domain::Kernel::ConfigValues::start();
     Logger::instance().init(Domain::Kernel::ConfigValues::LOG_PATH, LogLevel::DEBUG, true);
     static CrowLoggerAdapter logAdapter;
+    Logger::instance().info("Crisostomo start up ....  ");
     Logger::instance().info("Configuración cargada correctamente");
+    Logger::instance().info("Configuración Logs correctamente");
     auto &log = Logger::instance();
+    log.info("Iniciando el pool de conexiones a la base de datos...");
     StaticConnPoolPsql::initialize(
         "host=" + Domain::Kernel::ConfigValues::DB_HOST + " port=" + Domain::Kernel::ConfigValues::DB_PORT +
             " user=" + Domain::Kernel::ConfigValues::DB_USER +
@@ -23,11 +26,9 @@ int main()
 
     );
 
-    
+    log.info("Pool de conexiones iniciado correctamente");
+    log.info("Iniciando el servidor web en el puerto " + std::to_string(Domain::Kernel::ConfigValues::SERVER_PORT) + "...");
     crow::SimpleApp app;
-
-    // Acceder a los valores de configuración
-
     crow::logger::setHandler(&logAdapter);
     app.port(Domain::Kernel::ConfigValues::SERVER_PORT).multithreaded().concurrency(32);
 
@@ -36,6 +37,7 @@ int main()
 
     server_thread.join();
     StaticConnPoolPsql::shutdown();
+    log.info("Servidor web detenido correctamente");
+
     return 0;
-  
 }
