@@ -5,6 +5,7 @@
 #include "Infrastructure/Providers/Logs.hpp"
 #include "Infrastructure/Providers/StaticConnPsql.hpp"
 #include "Infrastructure/Providers/CrowLoggerAdapter.hpp"
+
 #include <crow.h>
 int main()
 {

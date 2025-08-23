@@ -3,7 +3,7 @@ project(Infrastructure)
 
 add_library(infrastructure SHARED 
     DAO/UserDAO.cpp
-    Providers/StaticConnPsql.cpp
+   
 )
 
 target_link_libraries(infrastructure PRIVATE domain pqxx pq)    
