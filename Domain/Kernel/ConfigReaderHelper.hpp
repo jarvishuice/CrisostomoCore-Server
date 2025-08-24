@@ -12,7 +12,7 @@ public:
     const char *dbName;
     const char *logPath;
     const char *logLevel;
-    const int *serverPort;
+    const char *serverPort;
 
     ConfigReaderHelper()
     {
@@ -32,6 +32,7 @@ public:
         this->logPath = ini.GetValue("database", "name", "crisostomo");
         this->logLevel = ini.GetValue("logs", "level", "debug");
         this->logPath  = ini.GetValue("logs", "path", "/logs");
+        this->serverPort = ini.GetValue("server", "port", "8080");
         
         
     }

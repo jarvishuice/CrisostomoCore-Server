@@ -18,7 +18,7 @@ namespace Domain::Kernel
         inline static std::string DB_NAME;
         inline static std::string LOG_PATH;
         inline static std::string LOG_LEVEL;
-        inline static int SERVER_PORT;
+        inline static std::string SERVER_PORT;
 
         static void start()
         {
@@ -30,7 +30,16 @@ namespace Domain::Kernel
             DB_NAME = helper.dbName;
             LOG_PATH = helper.logPath;
             LOG_LEVEL = helper.logLevel;
-            // SERVER_PORT = (int)helper.serverPort;
+            SERVER_PORT = helper.serverPort;
+            std::cout << "Configuración cargada: \n"
+                      << "DB_HOST=" << DB_HOST << "\n"
+                      << "DB_PORT=" << DB_PORT << "\n"
+                      << "DB_USER=" << DB_USER << "\n"
+                      << "DB_PASSWORD=" << DB_PASSWORD << "\n"
+                      << "DB_NAME=" << DB_NAME << "\n"
+                      << "LOG_PATH=" << LOG_PATH << "\n"
+                      << "LOG_LEVEL=" << LOG_LEVEL << "\n"
+                      << "SERVER_PORT=" << SERVER_PORT << "\n";
         }
     };
 

@@ -5,7 +5,8 @@
 #include "Infrastructure/Providers/Logs.hpp"
 #include "Infrastructure/Providers/StaticConnPsql.hpp"
 #include "Infrastructure/Providers/CrowLoggerAdapter.hpp"
-
+#include "Application/UseCases/GetUsersUseCase.hpp"
+#include "Presentation/Controllers/UserController.hpp"
 #include <crow.h>
 int main()
 {
@@ -28,10 +29,14 @@ int main()
     );
 
     log.info("Pool de conexiones iniciado correctamente");
-    log.info("Iniciando el servidor web en el puerto " + std::to_string(Domain::Kernel::ConfigValues::SERVER_PORT) + "...");
+    log.info("Iniciando el servidor web en el puerto " + Domain::Kernel::ConfigValues::SERVER_PORT + "...");
     crow::SimpleApp app;
     crow::logger::setHandler(&logAdapter);
-    app.port(Domain::Kernel::ConfigValues::SERVER_PORT).multithreaded().concurrency(32);
+    GetUsersUseCase getUsersUseCase;
+    GetUserUseCase getUserUseCase;
+    UserController userController = UserController(getUsersUseCase,getUserUseCase);
+    userController.setupRoutes(app);
+    app.port(std::stoi(Domain::Kernel::ConfigValues::SERVER_PORT)).multithreaded().concurrency(32);
 
     std::thread server_thread([&app]
                               { app.run(); });

@@ -68,8 +68,8 @@ public:
     }
 };
 
-// Definiciones estáticas
-std::queue<pqxx::connection*> StaticConnPoolPsql::connections;
-std::mutex StaticConnPoolPsql::mtx;
-std::condition_variable StaticConnPoolPsql::cv;
-bool StaticConnPoolPsql::initialized = false;
+// // Definiciones estáticas
+// std::queue<pqxx::connection*> StaticConnPoolPsql::connections;
+// std::mutex StaticConnPoolPsql::mtx;
+// std::condition_variable StaticConnPoolPsql::cv;
+// bool StaticConnPoolPsql::initialized = false;
