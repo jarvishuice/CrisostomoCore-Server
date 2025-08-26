@@ -1,5 +1,5 @@
 # CRISOSTOMO API
-
+![Logo de Google](/Gemini_Generated_Image_41yiv141yiv141yi.png)
 ## Descripción
 CRISOSTOMO es una API diseñada para gestionar libros, autores, editoriales y categorías. Utiliza FastAPI como framework web y PostgreSQL como base de datos. La API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre libros, autores, editoriales y categorías, así como la búsqueda y filtrado de estos recursos. Esta aplicación está implementada siguiendo los principios de **Clean Architecture**. Este API es el núcleo de una biblioteca digital disenada e implementada eln la aldea universitaria de mision sucre Jose gil fortoul .
 
