@@ -13,6 +13,9 @@ public:
 
     std::vector<Domain::Entities::UserEntity> all() override;
     Domain::Entities::UserEntity            findByCode(const std::string& cod) override;
+    Domain::Entities::UserEntity getUserByLogin(std::string param) override;
+    std::string add(const Domain::Entities::UserEntity& user) override;
+
 };
 
 } // namespace Infrastructure::DAO

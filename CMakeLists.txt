@@ -15,4 +15,5 @@ add_executable(api_rest_app app.cpp)
 # Enlaza el ejecutable principal con todas las bibliotecas compartidas
 target_link_libraries(api_rest_app PRIVATE infrastructure application presentation jsoncpp    # Agrega -ljsoncpp
     pqxx       # Agrega -lpqxx
-    pq )        # Agrega -lpq) #application presentation)
+    pq
+    jwt )        # Agrega -lpq) #application presentation)

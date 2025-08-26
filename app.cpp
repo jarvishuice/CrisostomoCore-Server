@@ -7,6 +7,8 @@
 #include "Infrastructure/Providers/CrowLoggerAdapter.hpp"
 #include "Application/UseCases/GetUsersUseCase.hpp"
 #include "Presentation/Controllers/UserController.hpp"
+#include "Application/Helpers/Sha256Helper.hpp"
+#include "Application/Helpers/JwtHelper.hpp"
 #include <crow.h>
 int main()
 {
@@ -17,8 +19,19 @@ int main()
     Logger::instance().info("Crisostomo start up ....  ");
     Logger::instance().info("Configuración cargada correctamente");
     Logger::instance().info("Configuración Logs correctamente");
+    
     auto &log = Logger::instance();
     log.info("Iniciando el pool de conexiones a la base de datos...");
+    JwtHelper helper = JwtHelper("123456");
+    Application::Helpers::Sha256Helper sha256Helper = Application::Helpers::Sha256Helper();
+    std::string password = "123456";
+    std::string hash = sha256Helper.hash(password);
+    std::string token = helper.generateToken("jarvis");
+    log.debug("jwt: " + token);
+    log.info("Token: " + hash);
+
+    log.info("Pool de conexiones iniciado correctamente");
+    log.info("Iniciando el servidor web en el puerto " + Domain::Kernel::ConfigValues::SERVER_PORT + "...");
     StaticConnPoolPsql::initialize(
         "host=" + Domain::Kernel::ConfigValues::DB_HOST + " port=" + Domain::Kernel::ConfigValues::DB_PORT +
             " user=" + Domain::Kernel::ConfigValues::DB_USER +
@@ -27,9 +40,7 @@ int main()
         10 // Tamaño del pool de conexiones
 
     );
-
-    log.info("Pool de conexiones iniciado correctamente");
-    log.info("Iniciando el servidor web en el puerto " + Domain::Kernel::ConfigValues::SERVER_PORT + "...");
+    
     crow::SimpleApp app;
     crow::logger::setHandler(&logAdapter);
     GetUsersUseCase getUsersUseCase;

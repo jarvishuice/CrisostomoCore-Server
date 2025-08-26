@@ -5,13 +5,17 @@ project(Application)
 # Debes listar todos los archivos .cpp de esta capa aquí.
 add_library(application SHARED
     UseCases/GetUsersUseCase.cpp 
-    UseCases/GetUserUseCase.cpp# Ejemplo de archivo de caso de uso
+    UseCases/GetUserUseCase.cpp
+    Helpers/Sha256Helper.cpp
+    Helpers/JwtHelper.cpp
+    # Ejemplo de archivo de caso de uso
     # Puedes añadir más archivos .cpp aquí, separados por espacios o saltos de línea.
 )
 
 # Vincula la biblioteca 'application' con 'domain'.
 # La palabra clave PRIVATE indica que la dependencia es interna.
 target_link_libraries(application PRIVATE domain infrastructure
+    jwt
 )
 
 # Establece los directorios de inclusión para las otras capas que dependen de esta.
