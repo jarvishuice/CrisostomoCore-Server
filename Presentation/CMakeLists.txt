@@ -5,6 +5,7 @@ project(Presentation)
 # Lista aquí todos los archivos .cpp de tu capa de presentación.
 add_library(presentation SHARED
     Controllers/UserController.cpp
+    Controllers/AuthController.cpp
     # Puedes añadir más archivos .cpp de esta capa aquí.
 )
 
