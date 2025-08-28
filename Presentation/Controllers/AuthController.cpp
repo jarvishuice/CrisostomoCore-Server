@@ -18,7 +18,9 @@ void AuthController::setupRoutes(crow::SimpleApp& app)
             std::cout << "Petición POST /auth/signup recibida\n";
             try {
                 // Parsear el JSON del body de la petición
+            
                 auto body = crow::json::load(req.body);
+                std::cout << body << "\n" << req.body;
                 if (!body) {
                     return crow::response{
                         crow::status::INTERNAL_SERVER_ERROR,
@@ -28,7 +30,7 @@ void AuthController::setupRoutes(crow::SimpleApp& app)
 
                 // Crear la entidad de usuario desde el JSON
                 Domain::Entities::UserEntity user;
-                user.from_json(body);
+                user.from_json(req.body);
 
                 // Ejecutar el caso de uso de registro
                 std::string userCode = singUpUseCase.execute(user);

@@ -9,6 +9,10 @@
 #include "Presentation/Controllers/UserController.hpp"
 #include "Application/Helpers/Sha256Helper.hpp"
 #include "Application/Helpers/JwtHelper.hpp"
+#include "Application/UseCases/LoginUseCase.hpp"
+#include "Application/UseCases/SingUpUseCase.hpp"
+#include "Presentation/Controllers/SwaggerController.hpp"
+#include "Presentation/Controllers/AuthController.hpp"
 #include <crow.h>
 int main()
 {
@@ -45,8 +49,16 @@ int main()
     crow::logger::setHandler(&logAdapter);
     GetUsersUseCase getUsersUseCase;
     GetUserUseCase getUserUseCase;
+    SingUpUseCase singUpUseCase;
+    LoginUseCase loginUseCase;
     UserController userController = UserController(getUsersUseCase,getUserUseCase);
     userController.setupRoutes(app);
+    SwaggerController swaggerController;
+
+    AuthController  authController = AuthController(singUpUseCase,loginUseCase);
+    swaggerController.setupRoutes(app);
+    authController.setupRoutes(app);
+
     app.port(std::stoi(Domain::Kernel::ConfigValues::SERVER_PORT)).multithreaded().concurrency(32);
 
     std::thread server_thread([&app]
