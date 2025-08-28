@@ -7,6 +7,7 @@ add_library(application SHARED
     UseCases/GetUsersUseCase.cpp 
     UseCases/GetUserUseCase.cpp
     UseCases/SingUpUseCase.cpp
+    UseCases/LoginUseCase.cpp
     Helpers/Sha256Helper.cpp
     Helpers/JwtHelper.cpp
     # Ejemplo de archivo de caso de uso

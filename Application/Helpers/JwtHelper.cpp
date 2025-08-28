@@ -2,18 +2,28 @@
 #include <jwt.h>
 #include <stdexcept>
 #include <cstring>
+#include <ctime>
+#include <iostream>
+#include "../../Infrastructure/Providers/Logs.hpp"
 
 JwtHelper::JwtHelper(const std::string& secretKey) : secret(secretKey) {}
 
 std::string JwtHelper::generateToken(const std::string& codUsuario) {
+    auto &log = Logger::instance();
     jwt_t* jwt = nullptr;
     if (jwt_new(&jwt) != 0) {
         throw std::runtime_error("Error al crear el JWT");
     }
 
     jwt_add_grant(jwt, "cod_usuario", codUsuario.c_str());
-    jwt_set_alg(jwt, JWT_ALG_HS256, reinterpret_cast<const unsigned char*>("data"), 4);
-
+    // Establecer algoritmo y clave secreta correctamente
+    log.debug(" decret value "+secret);
+    jwt_set_alg(jwt, JWT_ALG_HS256,
+        reinterpret_cast<const unsigned char*>(secret.c_str()),
+        secret.size());
+    time_t now = time(nullptr);
+    time_t exp = now +  5;//3600; // 3600 segundos = 1 hora
+    jwt_add_grant_int(jwt,"exp",exp);
     char* encoded = jwt_encode_str(jwt);
     std::string token(encoded);
 

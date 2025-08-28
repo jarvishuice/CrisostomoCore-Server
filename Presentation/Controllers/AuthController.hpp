@@ -3,15 +3,17 @@
 
 #include "crow.h"
 #include "../../Application/UseCases/SingUpUseCase.hpp"
+#include "../../Application/UseCases/LoginUseCase.hpp"
 
 
 class AuthController {
 private:
     SingUpUseCase& singUpUseCase;
+    LoginUseCase& loginUsecase;
    
     
 public:
-AuthController(SingUpUseCase& singUpUseCase);
+AuthController(SingUpUseCase& singUpUseCase,LoginUseCase& loginUsecase);
     void setupRoutes(crow::SimpleApp& app);
 };
 
