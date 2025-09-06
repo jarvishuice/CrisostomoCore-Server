@@ -59,6 +59,7 @@ public:
             entity.validate();
             
             // Add the user and return the generated code
+         
             return this->dao.add(entity);
         }
         catch (const std::exception& e) {

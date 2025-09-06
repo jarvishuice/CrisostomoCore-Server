@@ -7,6 +7,7 @@ add_library(presentation SHARED
     Controllers/UserController.cpp
     Controllers/AuthController.cpp
     Controllers/SwaggerController.cpp
+    Controllers/CategoryController.cpp
     # Puedes añadir más archivos .cpp de esta capa aquí.
 )
 

@@ -11,8 +11,11 @@
 #include "Application/Helpers/JwtHelper.hpp"
 #include "Application/UseCases/LoginUseCase.hpp"
 #include "Application/UseCases/SingUpUseCase.hpp"
+#include "Application/UseCases/GetCategoriesByParentCodeUseCase.hpp"
+#include "Application/UseCases/GetAreasDeweyUseCase.hpp"
 #include "Presentation/Controllers/SwaggerController.hpp"
 #include "Presentation/Controllers/AuthController.hpp"
+#include "Presentation/Controllers/CategoryController.hpp"
 #include <crow.h>
 int main()
 {
@@ -51,13 +54,16 @@ int main()
     GetUserUseCase getUserUseCase;
     SingUpUseCase singUpUseCase;
     LoginUseCase loginUseCase;
+    GetCategoriesByParentCodeUseCase getCategories;
+    GetAreasDeweyUseCase   getAreas;
     UserController userController = UserController(getUsersUseCase,getUserUseCase);
     userController.setupRoutes(app);
     SwaggerController swaggerController;
-
+    CategoryController categoryController =  CategoryController(getAreas,getCategories) ;
     AuthController  authController = AuthController(singUpUseCase,loginUseCase);
     swaggerController.setupRoutes(app);
     authController.setupRoutes(app);
+    categoryController.setupRoutes(app);
 
     app.port(std::stoi(Domain::Kernel::ConfigValues::SERVER_PORT)).multithreaded().concurrency(32);
 

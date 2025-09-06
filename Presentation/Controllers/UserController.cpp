@@ -19,16 +19,19 @@ void UserController::setupRoutes(crow::SimpleApp& app)
     ([this]() -> crow::response {
         std::cout << "Petición GET /users recibida\n";
         try {
-            auto users = getUsersUseCase.execute();
+            
+            std::vector<Domain::Entities::UserEntity> users = getUsersUseCase.execute();
 
             crow::json::wvalue body;
             auto& arr = body["users"] = crow::json::wvalue::list();
             for (size_t i = 0; i < users.size(); ++i) {
-                auto userJson = users[i].to_json().dump();
-                arr[i] = crow::json::load(userJson);
+                std::cout <<  std::endl << users[1].firstname << "salida ddel dao al leer ";
+                 std::string userJson = users[i].to_json().dump(4);
+                 arr[i] = crow::json::load(userJson);
             }
 
             crow::response resp{body};
+        
             resp.set_header("Content-Type", "application/json");
             return resp;
         }

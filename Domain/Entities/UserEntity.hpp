@@ -9,6 +9,11 @@ namespace Domain::Entities
     class UserEntity : public EntityBase
     {
     public:
+        UserEntity(const std::string &jsonStr) {
+            parseFromString(jsonStr);
+        };
+        UserEntity()=default;
+        ~UserEntity() = default;
         std::optional<std::string> cod; // inicia como vacío
         std::string firstname;
         std::string lastName;
@@ -21,44 +26,58 @@ namespace Domain::Entities
         std::string dateRegister;
         std::string dateUpdate;
 
+        void parseFromString(const std::string &jsonStr)
+        {
+            try
+            {
+                auto j = nlohmann::json::parse(jsonStr);
+                from_json(j);
+            }
+            catch (const nlohmann::json::parse_error &e)
+            {
+                throw std::invalid_argument(
+                    std::string("Error al parsear JSON: ") + e.what());
+            }
+        }
         // Deserialización desde JSON
-        void from_json(const nlohmann::json& j) override {
+        void from_json(const nlohmann::json &j) override
+        {
             if (j.contains("cod") && !j.at("cod").is_null())
                 cod = j.at("cod").get<std::string>();
-        
+
             if (j.contains("firstname") && j.at("firstname").is_string())
                 firstname = j.at("firstname").get<std::string>();
-        
+
             if (j.contains("lastName") && j.at("lastName").is_string())
                 lastName = j.at("lastName").get<std::string>();
-        
+
             if (j.contains("middleName") && j.at("middleName").is_string())
                 middleName = j.at("middleName").get<std::string>();
-        
+
             if (j.contains("username") && j.at("username").is_string())
                 username = j.at("username").get<std::string>();
-        
+
             if (j.contains("password") && j.at("password").is_string())
                 password = j.at("password").get<std::string>();
-        
+
             if (j.contains("email") && j.at("email").is_string())
                 email = j.at("email").get<std::string>();
-        
+
             if (j.contains("phone") && j.at("phone").is_string())
                 phone = j.at("phone").get<std::string>();
-        
+
             if (j.contains("birthDate") && j.at("birthDate").is_string())
                 birthdate = j.at("birthDate").get<std::string>();
-        
+
             if (j.contains("dateRegister") && j.at("dateRegister").is_string())
                 dateRegister = j.at("dateRegister").get<std::string>();
-        
+
             if (j.contains("dateUpdate") && j.at("dateUpdate").is_string())
                 dateUpdate = j.at("dateUpdate").get<std::string>();
-        
+
             validate();
         }
-        
+
         // Serialización a JSON
         nlohmann::json to_json() const override
         {
@@ -68,7 +87,9 @@ namespace Domain::Entities
                 j["cod"] = cod.value();
             j["firstname"] = firstname;
             j["lastName"] = lastName;
-            j["middleName"] = middleName.has_value() ? middleName.value() : nullptr;
+            if (middleName.has_value()) {
+                j["middleName"] = middleName.value();
+            }
             j["username"] = username;
             j["password"] = password;
             j["email"] = email;
@@ -76,7 +97,7 @@ namespace Domain::Entities
             j["birthdate"] = birthdate;
             j["dateRegister"] = dateRegister;
             j["dateUpdate"] = dateUpdate;
-            
+
             return j;
         }
 

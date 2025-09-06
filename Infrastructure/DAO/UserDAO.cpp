@@ -21,12 +21,14 @@ std::vector<Domain::Entities::UserEntity> UserDAO::all()
 
         for (auto const &row : r)
         {
-            Domain::Entities::UserEntity u;
+            Domain::Entities::UserEntity u = Domain::Entities::UserEntity();
             u.cod = row["cod"].as<std::string>();
             u.firstname = row["firstname"].as<std::string>();
             u.lastName = row["last_name"].as<std::string>();
-            if (!row["middle_name"].is_null())
+            if(!row["middle_name"].is_null()){
                 u.middleName = row["middle_name"].as<std::string>();
+            }
+          
             u.username = row["username"].as<std::string>();
             u.password = row["password"].as<std::string>();
             u.email = row["email"].as<std::string>();
@@ -64,8 +66,7 @@ Domain::Entities::UserEntity UserDAO::findByCode(const std::string &cod)
             res.cod = row["cod"].as<std::string>();
             res.firstname = row["firstname"].as<std::string>();
             res.lastName = row["last_name"].as<std::string>();
-            if (!row["middle_name"].is_null())
-                res.middleName = row["middle_name"].as<std::string>();
+           
             res.username = row["username"].as<std::string>();
             res.password = row["password"].as<std::string>();
             res.email = row["email"].as<std::string>();
@@ -120,7 +121,8 @@ Domain::Entities::UserEntity UserDAO::getUserByLogin(std::string param)
 std::string UserDAO::add(const Domain::Entities::UserEntity& user)
 {
     Logger::instance().info("UserDAO::add() called for user: " + user.username);
-
+    std::cout << "UserDAO::add() called for user: " << user.username <<"esto es lo que llega al daO" << std::endl;
+   
     ConnectionRAII conn;
     std::string result = "error";
     try
@@ -137,9 +139,9 @@ std::string UserDAO::add(const Domain::Entities::UserEntity& user)
                      txn.quote(user.password) + ", " +
                      txn.quote(user.email) + ", " +
                      txn.quote(user.phone) + ", " +
-                     txn.quote(user.birthdate) + ", " +
-                     txn.quote(user.dateRegister) + ", " +
-                     txn.quote(user.dateUpdate) + ")";
+                     "now()"+ ", " +
+                     "now()" + ", " +
+                     "now()" + ")";
         
         // Execute the query
         txn.exec(query);

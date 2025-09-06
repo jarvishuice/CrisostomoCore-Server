@@ -21,7 +21,7 @@ public:
         std::lock_guard<std::mutex> lock(mtx);
         if (!initialized) {
             for (size_t i = 0; i < poolSize; ++i) {
-                pqxx::connection* conn = new pqxx::connection(conninfo + " application_name=microservicio_user_dev_aws");
+                pqxx::connection* conn = new pqxx::connection(conninfo + " application_name=CrisostomoCore");
                 connections.push(conn);
                log.info("conexion #"+std::to_string(i)+" abierta con exito") ;
 

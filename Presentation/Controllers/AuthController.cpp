@@ -29,9 +29,9 @@ void AuthController::setupRoutes(crow::SimpleApp& app)
                 }
 
                 // Crear la entidad de usuario desde el JSON
-                Domain::Entities::UserEntity user;
-                user.from_json(req.body);
-
+                Domain::Entities::UserEntity user = UserEntity();
+                user.parseFromString(req.body);
+                std::cout << "esto es lo que estoy mandando al caso de uso "<< user.email;
                 // Ejecutar el caso de uso de registro
                 std::string userCode = singUpUseCase.execute(user);
 
