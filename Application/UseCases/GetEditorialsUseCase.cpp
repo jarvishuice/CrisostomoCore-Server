@@ -1,0 +1,1 @@
+#include"GetEditorialsUseCase.hpp"

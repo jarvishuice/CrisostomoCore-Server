@@ -10,6 +10,9 @@ add_library(application SHARED
     UseCases/LoginUseCase.cpp
     UseCases/GetAreasDeweyUseCase.cpp
     UseCases/GetCategoriesByParentCodeUseCase.cpp
+    UseCases/GetEditorialsUseCase.cpp
+    UseCases/GetEditorialUseCase.cpp
+    UseCases/RegisterEditorialUseCase.cpp
     Helpers/Sha256Helper.cpp
     Helpers/JwtHelper.cpp
     # Ejemplo de archivo de caso de uso

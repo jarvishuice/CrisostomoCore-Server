@@ -4,6 +4,7 @@ project(Infrastructure)
 add_library(infrastructure SHARED 
     DAO/UserDAO.cpp
     DAO/CategoryDAO.cpp
+    DAO/EditorialDAO.cpp
     Providers/StaticConnPsql.cpp
    
 )

@@ -13,9 +13,14 @@
 #include "Application/UseCases/SingUpUseCase.hpp"
 #include "Application/UseCases/GetCategoriesByParentCodeUseCase.hpp"
 #include "Application/UseCases/GetAreasDeweyUseCase.hpp"
+#include "Application/UseCases/GetEditorialsUseCase.hpp"
+#include "Application/UseCases/GetEditorialUseCase.hpp"
+#include  "Application/UseCases/RegisterEditorialUseCase.hpp"
 #include "Presentation/Controllers/SwaggerController.hpp"
 #include "Presentation/Controllers/AuthController.hpp"
 #include "Presentation/Controllers/CategoryController.hpp"
+#include "Presentation/Controllers/EditorialController.hpp"
+
 #include <crow.h>
 int main()
 {
@@ -64,6 +69,12 @@ int main()
     swaggerController.setupRoutes(app);
     authController.setupRoutes(app);
     categoryController.setupRoutes(app);
+    // Ejemplo de uso en app.cpp
+GetEditorialsUseCase editorialsUseCase;
+GetEditorialUseCase editorialUseCase;
+RegisterEditorialUseCase registerUseCase;
+EditorialController editorialController(editorialsUseCase, editorialUseCase, registerUseCase);
+editorialController.setupRoutes(app);
 
     app.port(std::stoi(Domain::Kernel::ConfigValues::SERVER_PORT)).multithreaded().concurrency(32);
 
