@@ -15,11 +15,16 @@
 #include "Application/UseCases/GetAreasDeweyUseCase.hpp"
 #include "Application/UseCases/GetEditorialsUseCase.hpp"
 #include "Application/UseCases/GetEditorialUseCase.hpp"
-#include  "Application/UseCases/RegisterEditorialUseCase.hpp"
+#include "Application/UseCases/RegisterEditorialUseCase.hpp"
+#include "Application/UseCases/GetAuthorsUseCase.hpp"
+#include "Application/UseCases/GetAuthorUseCase.hpp"
+#include "Application/UseCases/SearchAuthorUseCase.hpp"
+#include "Application/UseCases/RegisterAuthorUseCase.hpp"
 #include "Presentation/Controllers/SwaggerController.hpp"
 #include "Presentation/Controllers/AuthController.hpp"
 #include "Presentation/Controllers/CategoryController.hpp"
 #include "Presentation/Controllers/EditorialController.hpp"
+#include "Presentation/Controllers/AuthorController.hpp"
 
 #include <crow.h>
 int main()
@@ -31,7 +36,7 @@ int main()
     Logger::instance().info("Crisostomo start up ....  ");
     Logger::instance().info("Configuración cargada correctamente");
     Logger::instance().info("Configuración Logs correctamente");
-    
+
     auto &log = Logger::instance();
     log.info("Iniciando el pool de conexiones a la base de datos...");
     JwtHelper helper = JwtHelper("123456");
@@ -52,7 +57,7 @@ int main()
         10 // Tamaño del pool de conexiones
 
     );
-    
+
     crow::SimpleApp app;
     crow::logger::setHandler(&logAdapter);
     GetUsersUseCase getUsersUseCase;
@@ -60,21 +65,27 @@ int main()
     SingUpUseCase singUpUseCase;
     LoginUseCase loginUseCase;
     GetCategoriesByParentCodeUseCase getCategories;
-    GetAreasDeweyUseCase   getAreas;
-    UserController userController = UserController(getUsersUseCase,getUserUseCase);
+    GetAreasDeweyUseCase getAreas;
+    UserController userController = UserController(getUsersUseCase, getUserUseCase);
     userController.setupRoutes(app);
     SwaggerController swaggerController;
-    CategoryController categoryController =  CategoryController(getAreas,getCategories) ;
-    AuthController  authController = AuthController(singUpUseCase,loginUseCase);
+    CategoryController categoryController = CategoryController(getAreas, getCategories);
+    AuthController authController = AuthController(singUpUseCase, loginUseCase);
     swaggerController.setupRoutes(app);
     authController.setupRoutes(app);
     categoryController.setupRoutes(app);
     // Ejemplo de uso en app.cpp
-GetEditorialsUseCase editorialsUseCase;
-GetEditorialUseCase editorialUseCase;
-RegisterEditorialUseCase registerUseCase;
-EditorialController editorialController(editorialsUseCase, editorialUseCase, registerUseCase);
-editorialController.setupRoutes(app);
+    GetEditorialsUseCase editorialsUseCase;
+    GetEditorialUseCase editorialUseCase;
+    RegisterEditorialUseCase registerUseCase;
+    RegisterAuthorUseCase registerAuthorUseCase;
+    GetAuthorUseCase getAuthorUseCase;
+    GetAuthorsUseCase getAuthorsUseCase;
+    SearchAuthorUseCase searchAuthorUseCase;
+    AuthorController authorController(getAuthorsUseCase, getAuthorUseCase, registerAuthorUseCase, searchAuthorUseCase);
+    authorController.setupRoutes(app);
+    EditorialController editorialController(editorialsUseCase, editorialUseCase, registerUseCase);
+    editorialController.setupRoutes(app);
 
     app.port(std::stoi(Domain::Kernel::ConfigValues::SERVER_PORT)).multithreaded().concurrency(32);
 

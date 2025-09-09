@@ -13,8 +13,13 @@ add_library(application SHARED
     UseCases/GetEditorialsUseCase.cpp
     UseCases/GetEditorialUseCase.cpp
     UseCases/RegisterEditorialUseCase.cpp
+    UseCases/RegisterAuthorUseCase.cpp
+    UseCases/GetAuthorUseCase.cpp
+    UseCases/GetAuthorsUseCase.cpp
+    UseCases/SearchAuthorUseCase.cpp
     Helpers/Sha256Helper.cpp
     Helpers/JwtHelper.cpp
+    Helpers/UUIDHelper.cpp
     # Ejemplo de archivo de caso de uso
     # Puedes añadir más archivos .cpp aquí, separados por espacios o saltos de línea.
 )

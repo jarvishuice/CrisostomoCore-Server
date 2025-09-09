@@ -1,0 +1,1 @@
+#include "RegisterAuthorUseCase.hpp"
